@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <div className={styles.container}>
 
-      <img src={`http://localhost:3000/api/flag?address=0x7A33615d12A12f58b25c653dc5E44188D44f6898`} height={100} width={200} /> 
+      <img src={`https://cryptoflags.vercel.app/api/flag?address=0x7A33615d12A12f58b25c653dc5E44188D44f6898`} height={100} width={200} /> 
       <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
