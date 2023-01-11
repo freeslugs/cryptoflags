@@ -18,21 +18,21 @@ export default function handler(req, res) {
   }
 
   // basic orient validation
-  if(orient != "horizontal" || orient != "vertical") {
-    res.json({
+  if(orient != "horizontal" && orient != "vertical") {
+    return res.json({
       error: "Invalid orient query param"
     })
   }
   
   // basic address validation
   if(!address) {
-    res.json({
+    return res.json({
       error: "Missing address query param"
     })
   }
 
   if(!/^0x[a-fA-F0-9]{40}$/.test(address)) {
-    res.json({
+    return res.json({
       error: `Invalid ethereum address ${address}`
     })
   }
@@ -67,6 +67,7 @@ export default function handler(req, res) {
   }
 
   res.setHeader('Content-Type', 'image/png');
+  res.writeHead(200);
 
   const passThroughStream = new PassThrough();  
   PImage.encodePNGToStream(img, passThroughStream)
