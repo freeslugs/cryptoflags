@@ -2,9 +2,8 @@ import * as PImage from "pureimage"
 import { PassThrough } from "stream"
 import chunk from 'lodash.chunk';
 
-
 export default function handler(req, res) {
-  let { address, width, height } = req.query
+  let { address, width, height, orient } = req.query
   
   if(!width) {
     width = 100
@@ -12,6 +11,17 @@ export default function handler(req, res) {
 
   if(!height) {
     height = 100
+  }
+
+  if(!orient) {
+    orient = "horizontal"
+  }
+
+  // basic orient validation
+  if(orient != "horizontal" || orient != "vertical") {
+    res.json({
+      error: "Invalid orient query param"
+    })
   }
   
   // basic address validation
@@ -41,10 +51,17 @@ export default function handler(req, res) {
     }
     ctx.fillStyle = '#' + hex;
     
-    const x = 0 
-    const elHeight = height / 7 
-    const y = elHeight * i
-    const elWidth = width
+    let x = 0 
+    let elHeight = height / 7 
+    let y = elHeight * i
+    let elWidth = width
+
+    if(orient == "vertical") {
+      y = 0
+      elWidth = width / 7
+      x = elWidth * i 
+      elHeight = height 
+    }
     
     ctx.fillRect(x,y,elWidth,elHeight);
   }
